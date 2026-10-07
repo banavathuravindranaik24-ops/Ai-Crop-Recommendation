@@ -1,0 +1,24 @@
+[
+  {
+    "_id": "mem_1791380087664",
+    "n": 78,
+    "p": 37,
+    "k": 29,
+    "temperature": 27,
+    "humidity": 80,
+    "ph": 7,
+    "rainfall": 350,
+    "city": "Bhimavaram",
+    "crop": "rice",
+    "n_status": "Balanced",
+    "p_status": "Balanced",
+    "k_status": "Low",
+    "image": "https://imgs.search.brave.com/WDjpAitvU2lv3bNoYK0Ye-a-FysmTtKMnNfpg3Ola3U/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTgz/NDIwOTM5L3Bob3Rv/L3JpY2UtY3JvcC1p/bi10aGUtc3Vuc2hp/bmUuanBnP3M9NjEy/eDYxMiZ3PTAmaz0y/MCZjPThDUzNpaDlN/N290U3M0NC1RclZT/aVI4UXZ1cnV3Q3lN/U2JxMDhELUc4UlE9",
+    "description": "Rice grows well in flooded fields with high rainfall and humidity.",
+    "fertilizer": "Urea",
+    "fertilizer_reason": "Provides nitrogen which improves rice growth and leaf development.",
+    "confidence": 100,
+    "alternatives": [],
+    "createdAt": "2026-10-07T13:34:47.665Z"
+  }
+]
