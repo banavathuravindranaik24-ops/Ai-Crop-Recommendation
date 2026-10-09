@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sprout, CheckCircle2, FlaskConical, Award, HelpCircle, Layers, ArrowRight } from 'lucide-react';
+import { Sprout, CheckCircle2, FlaskConical, Award, HelpCircle, Layers, ArrowRight, Maximize2 } from 'lucide-react';
 
 export default function ResultCard({ result, onSelectCrop }) {
   const [imgError, setImgError] = useState(false);
@@ -74,6 +74,37 @@ export default function ResultCard({ result, onSelectCrop }) {
         </div>
         <p className="fertilizer-reason">{result.fertilizer_reason}</p>
       </div>
+
+      {result.yieldEstimate && (
+        <div className="area-analysis-card">
+          <div className="section-subtitle">
+            <Maximize2 size={16} color="#0f766e" />
+            <span>Land Area Yield & Input Forecast ({result.areaLabel || `${result.area || 1} acres`})</span>
+          </div>
+          <div className="area-metrics-grid">
+            <div className="area-metric-item">
+              <span className="area-metric-label">Estimated Harvest Yield</span>
+              <span className="area-metric-val">{result.yieldEstimate}</span>
+            </div>
+            <div className="area-metric-item">
+              <span className="area-metric-label">Fertilizer Requirement</span>
+              <span className="area-metric-val">{result.fertilizerQuantity}</span>
+            </div>
+            {result.seedRequirement && (
+              <div className="area-metric-item">
+                <span className="area-metric-label">Recommended Seed Rate</span>
+                <span className="area-metric-val">{result.seedRequirement}</span>
+              </div>
+            )}
+            {result.waterRequirement && (
+              <div className="area-metric-item">
+                <span className="area-metric-label">Water / Irrigation Need</span>
+                <span className="area-metric-val">{result.waterRequirement}</span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {result.alternatives && result.alternatives.length > 0 && (
         <div className="alternatives-section">

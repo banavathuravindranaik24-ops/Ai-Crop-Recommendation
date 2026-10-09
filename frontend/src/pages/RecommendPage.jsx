@@ -11,7 +11,9 @@ import {
   Thermometer,
   Droplets,
   CloudRain,
-  Activity
+  Activity,
+  Maximize2,
+  MapPin
 } from 'lucide-react';
 import NpkMeter from '../components/NpkMeter';
 import ResultCard from '../components/ResultCard';
@@ -19,35 +21,42 @@ import { fetchWeather, predictCrop } from '../services/api';
 
 const PRESETS = [
   {
+    label: '🌶️ Chilli Preset (Guntur)',
+    desc: 'Warm, moderate rain, balanced NPK',
+    data: { n: 100, p: 60, k: 55, temperature: 28.5, humidity: 67, ph: 6.5, rainfall: 85, city: 'Guntur', area: 2, areaUnit: 'acres' }
+  },
+  {
     label: 'Rice Preset',
     desc: 'High rain, humid',
-    data: { n: 90, p: 42, k: 43, temperature: 21, humidity: 82, ph: 6.5, rainfall: 203, city: 'Cuttack' }
+    data: { n: 90, p: 42, k: 43, temperature: 21, humidity: 82, ph: 6.5, rainfall: 203, city: 'Cuttack', area: 3, areaUnit: 'acres' }
   },
   {
     label: 'Maize Preset',
     desc: 'Warm, moderate rain',
-    data: { n: 78, p: 48, k: 20, temperature: 22, humidity: 65, ph: 6.2, rainfall: 85, city: 'Indore' }
+    data: { n: 78, p: 48, k: 20, temperature: 22, humidity: 65, ph: 6.2, rainfall: 85, city: 'Indore', area: 2, areaUnit: 'acres' }
   },
   {
     label: 'Chickpea Preset',
     desc: 'Cool, low humidity',
-    data: { n: 40, p: 68, k: 80, temperature: 19, humidity: 17, ph: 7.3, rainfall: 80, city: 'Jaipur' }
+    data: { n: 40, p: 68, k: 80, temperature: 19, humidity: 17, ph: 7.3, rainfall: 80, city: 'Jaipur', area: 2, areaUnit: 'acres' }
   },
   {
     label: 'Apple Preset',
     desc: 'Cool climate, high K',
-    data: { n: 21, p: 134, k: 200, temperature: 22, humidity: 92, ph: 6.0, rainfall: 110, city: 'Shimla' }
+    data: { n: 21, p: 134, k: 200, temperature: 22, humidity: 92, ph: 6.0, rainfall: 110, city: 'Shimla', area: 1, areaUnit: 'acres' }
   },
   {
     label: 'Cotton Preset',
     desc: 'Warm, moderate N',
-    data: { n: 117, p: 46, k: 19, temperature: 24, humidity: 80, ph: 6.8, rainfall: 80, city: 'Nagpur' }
+    data: { n: 117, p: 46, k: 19, temperature: 24, humidity: 80, ph: 6.8, rainfall: 80, city: 'Nagpur', area: 4, areaUnit: 'acres' }
   }
 ];
 
 export default function RecommendPage({ onSelectCrop }) {
   const [formData, setFormData] = useState({
     city: '',
+    area: '1',
+    areaUnit: 'acres',
     n: '',
     p: '',
     k: '',
@@ -70,7 +79,9 @@ export default function RecommendPage({ onSelectCrop }) {
 
   const applyPreset = (preset) => {
     setFormData({
-      city: preset.data.city,
+      city: preset.data.city || '',
+      area: preset.data.area ? String(preset.data.area) : '1',
+      areaUnit: preset.data.areaUnit || 'acres',
       n: preset.data.n,
       p: preset.data.p,
       k: preset.data.k,
@@ -85,6 +96,8 @@ export default function RecommendPage({ onSelectCrop }) {
   const resetForm = () => {
     setFormData({
       city: '',
+      area: '1',
+      areaUnit: 'acres',
       n: '',
       p: '',
       k: '',
@@ -130,7 +143,7 @@ export default function RecommendPage({ onSelectCrop }) {
     e.preventDefault();
     setErrorMsg('');
 
-    const { n, p, k, temperature, humidity, ph, rainfall } = formData;
+    const { n, p, k, temperature, humidity, ph, rainfall, area, areaUnit } = formData;
     if (
       n === '' ||
       p === '' ||
@@ -154,7 +167,9 @@ export default function RecommendPage({ onSelectCrop }) {
         humidity: parseFloat(humidity),
         ph: parseFloat(ph),
         rainfall: parseFloat(rainfall),
-        city: formData.city
+        city: formData.city,
+        area: parseFloat(area) || 1,
+        areaUnit: areaUnit || 'acres'
       });
 
       if (res.error) {
@@ -176,7 +191,7 @@ export default function RecommendPage({ onSelectCrop }) {
           🌾 AI Crop Recommendation Dashboard
         </h1>
         <p>
-          Analyze soil chemistry and meteorological conditions with machine learning to identify the best crop and fertilizer.
+          Analyze soil chemistry, meteorological conditions, and land area with machine learning to identify the best crop and fertilizer.
         </p>
       </div>
 
@@ -213,7 +228,7 @@ export default function RecommendPage({ onSelectCrop }) {
       <div className="dashboard-grid">
         {/* Left Column: Form Area */}
         <div className="form-card">
-          {/* Weather integration */}
+          {/* Weather & Location integration */}
           <div className="form-section">
             <label className="section-label">
               <CloudSun size={17} />
@@ -223,7 +238,7 @@ export default function RecommendPage({ onSelectCrop }) {
               <input
                 type="text"
                 name="city"
-                placeholder="Enter city (e.g. Pune, Delhi, London)"
+                placeholder="Enter city or area (e.g. Guntur, Bhimavaram, Pune)"
                 value={formData.city}
                 onChange={handleChange}
                 className="input-field"
@@ -255,6 +270,46 @@ export default function RecommendPage({ onSelectCrop }) {
           </div>
 
           <form onSubmit={handlePredict}>
+            {/* Land Area and Scale */}
+            <div className="form-section">
+              <label className="section-label">
+                <Maximize2 size={17} />
+                <span>Field Land Area & Scale</span>
+              </label>
+
+              <div className="fields-2col">
+                <div className="input-group">
+                  <label htmlFor="area">Land Area Size</label>
+                  <input
+                    id="area"
+                    name="area"
+                    type="number"
+                    step="0.1"
+                    min="0.1"
+                    placeholder="e.g. 2.5"
+                    value={formData.area}
+                    onChange={handleChange}
+                    className="input-field"
+                    required
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label htmlFor="areaUnit">Measurement Unit</label>
+                  <select
+                    id="areaUnit"
+                    name="areaUnit"
+                    value={formData.areaUnit}
+                    onChange={handleChange}
+                    className="input-field"
+                  >
+                    <option value="acres">Acres</option>
+                    <option value="hectares">Hectares</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
             {/* Soil Nutrients */}
             <div className="form-section">
               <label className="section-label">

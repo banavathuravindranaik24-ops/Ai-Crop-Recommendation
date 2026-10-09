@@ -140,25 +140,27 @@ Access the complete application directly at **http://localhost:5000**.
 |---|---|---|
 | `POST` | `/api/predict` | Predicts optimal crop, fertilizer, and NPK status. Also saved to MongoDB. |
 | `GET` | `/api/weather/:city` | Retrieves live temperature and humidity for a given city. |
-| `GET` | `/api/crops` | Returns catalog of all 22 supported crops (supports `?search=`). |
+| `GET` | `/api/crops` | Returns catalog of all 23 supported crops (supports `?search=`). |
 | `GET` | `/api/crops/:id` | Returns detailed agronomic profile for a specific crop. |
 | `GET` | `/api/history` | Retrieves recent prediction records from MongoDB. |
 | `DELETE` | `/api/history/:id` | Deletes a prediction record from MongoDB. |
 | `DELETE` | `/api/history` | Clears all stored predictions. |
 | `GET` | `/api/health` | Health check reporting DB status, ML status, and uptime. |
 
-### Sample Prediction Request
+### Sample Prediction Request (with Land Area & Scale)
 `POST /api/predict`
 ```json
 {
-  "n": 90,
-  "p": 42,
-  "k": 43,
-  "temperature": 20.8,
-  "humidity": 82.0,
+  "n": 100,
+  "p": 60,
+  "k": 55,
+  "temperature": 28.5,
+  "humidity": 67.0,
   "ph": 6.5,
-  "rainfall": 202.9,
-  "city": "Cuttack"
+  "rainfall": 85.0,
+  "city": "Guntur",
+  "area": 2.5,
+  "areaUnit": "acres"
 }
 ```
 
@@ -166,27 +168,33 @@ Access the complete application directly at **http://localhost:5000**.
 ```json
 {
   "success": true,
-  "crop": "rice",
+  "crop": "chilli",
   "n_status": "Balanced",
   "p_status": "Balanced",
-  "k_status": "Low",
-  "image": "https://...",
-  "description": "Rice grows well in flooded fields with high rainfall and humidity.",
-  "fertilizer": "Urea",
-  "fertilizer_reason": "Provides nitrogen which improves rice growth and leaf development.",
-  "confidence": 96,
-  "alternatives": [
-    { "crop": "jute", "confidence": 4 }
-  ],
+  "k_status": "Balanced",
+  "image": "https://images.unsplash.com/photo-1588252303782-cb80119abd6d?w=600",
+  "description": "Chilli requires warm conditions, moderate precipitation, and well-drained loamy soil with balanced macronutrients.",
+  "fertilizer": "NPK 19-19-19 or Balanced Organic Compost",
+  "fertilizer_reason": "Balanced soil nutrients; light supplemental balanced feed boosts capsaicin and flowering.",
+  "confidence": 100,
+  "area": 2.5,
+  "areaUnit": "acres",
+  "areaLabel": "2.5 acres",
+  "yieldEstimate": "7.50 - 12.50 metric tons (fresh)",
+  "fertilizerQuantity": "125.0 kg N, 75.0 kg P, 68.8 kg K",
+  "seedRequirement": "1.25 - 2.50 kg (transplanting nursery)",
+  "waterRequirement": "10.0 - 15.0 megaliters (drip recommended)",
+  "alternatives": [],
   "predictionId": "65b...",
-  "createdAt": "2026-10-07T12:45:00.000Z"
+  "createdAt": "2026-10-09T13:00:00.000Z"
 }
 ```
 
 ---
 
-## 🌾 Supported Crops (22)
+## 🌾 Supported Crops (23)
 - **Cereals**: Rice, Maize
 - **Pulses**: Chickpea, Kidney beans, Pigeon peas, Moth beans, Mung bean, Black gram, Lentil
 - **Fruits**: Pomegranate, Banana, Mango, Grapes, Watermelon, Muskmelon, Apple, Orange, Papaya, Coconut
-- **Cash Crops**: Cotton, Jute, Coffee
+- **Spices & Cash Crops**: Chilli, Cotton, Jute, Coffee
+

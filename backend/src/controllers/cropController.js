@@ -13,18 +13,21 @@ const loadLocalCrops = () => {
 
 const localCropsData = loadLocalCrops();
 
-// Seed database if connected and empty
+// Seed database if connected and upsert missing crops
 const seedCropsIfEmpty = async () => {
   try {
     const status = getDBStatus();
     if (!status.connected) return;
 
-    const count = await Crop.countDocuments();
-    if (count === 0) {
-      console.log('[Crop Seeder] Crop collection is empty. Seeding 22 crops from cropsData.json...');
-      await Crop.insertMany(localCropsData);
-      console.log('[Crop Seeder] Successfully seeded all crops into MongoDB!');
+    for (const crop of localCropsData) {
+      await Crop.updateOne(
+        { id: crop.id },
+        { $set: crop },
+        { upsert: true }
+      );
     }
+    const count = await Crop.countDocuments();
+    console.log(`[Crop Seeder] Successfully synced ${count} crops in MongoDB!`);
   } catch (err) {
     console.warn('[Crop Seeder] Could not seed crops into MongoDB:', err.message);
   }

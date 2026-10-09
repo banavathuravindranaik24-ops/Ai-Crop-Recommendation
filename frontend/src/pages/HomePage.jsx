@@ -43,14 +43,14 @@ export default function HomePage({ setActiveTab }) {
             onClick={() => setActiveTab('catalog')}
           >
             <BookOpen size={18} />
-            <span>Explore 22 Crops</span>
+            <span>Explore 23 Crops</span>
           </button>
         </div>
       </div>
 
       <div className="stats-container">
         <div className="stat-card">
-          <div className="stat-number">22</div>
+          <div className="stat-number">23</div>
           <div className="stat-label">Crops Supported</div>
         </div>
         <div className="stat-card">
@@ -96,6 +96,9 @@ export default function HomePage({ setActiveTab }) {
               <li>
                 <Check size={16} color="#16a34a" /> Fertilizer advisory with chemical rationale
               </li>
+              <li>
+                <Check size={16} color="#16a34a" /> Land area yield, seed & fertilizer scaling
+              </li>
             </ul>
             <button className="card-action-btn">
               <span>Get Recommendation</span>
@@ -113,7 +116,7 @@ export default function HomePage({ setActiveTab }) {
             </div>
             <h3>Crop Catalog</h3>
             <p>
-              Browse our agronomic database of 22 supported cereals, pulses, fruits, and cash crops with growth profiles.
+              Browse our agronomic database of 23 supported cereals, pulses, fruits, cash crops, and spices (incl. Chilli) with growth profiles.
             </p>
             <ul className="tool-features">
               <li>

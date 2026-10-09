@@ -1086,6 +1086,51 @@ body {
   line-height: 1.5;
 }
 
+.area-analysis-card {
+  background: #f0fdfa;
+  border: 1.5px solid #99f6e4;
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+}
+
+.area-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 8px;
+}
+
+@media (max-width: 640px) {
+  .area-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.area-metric-item {
+  background: #ffffff;
+  border: 1px solid #ccfbf1;
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  box-shadow: 0 1px 3px rgba(15, 118, 110, 0.05);
+}
+
+.area-metric-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #0f766e;
+  letter-spacing: 0.02em;
+}
+
+.area-metric-val {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #134e4a;
+}
+
 .alternatives-section {
   display: flex;
   flex-direction: column;

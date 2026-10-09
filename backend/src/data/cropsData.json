@@ -394,5 +394,23 @@
       "ph": 6.8,
       "rainfall": 158.1
     }
+  },
+  {
+    "id": "chilli",
+    "name": "Chilli",
+    "crop": "chilli",
+    "image": "https://images.unsplash.com/photo-1588252303782-cb80119abd6d?w=600",
+    "description": "Chilli grows best in warm, humid tropical and subtropical climates with well-drained loamy soil rich in organic matter.",
+    "fertilizer": "NPK 19-19-19 & Potassium Nitrate",
+    "fertilizer_reason": "Promotes heavy flowering, boosts capsaicin potency, and enhances resistance to fruit rot.",
+    "optimalConditions": {
+      "n": 100.0,
+      "p": 60.0,
+      "k": 55.0,
+      "temperature": 28.5,
+      "humidity": 67.0,
+      "ph": 6.5,
+      "rainfall": 85.0
+    }
   }
 ]

@@ -10,6 +10,8 @@ const predictionSchema = new mongoose.Schema(
     ph: { type: Number, required: true },
     rainfall: { type: Number, required: true },
     city: { type: String, default: '' },
+    area: { type: Number, default: 1 },
+    areaUnit: { type: String, default: 'acres' },
     crop: { type: String, required: true },
     n_status: { type: String, required: true },
     p_status: { type: String, required: true },
@@ -18,6 +20,10 @@ const predictionSchema = new mongoose.Schema(
     description: { type: String, default: '' },
     fertilizer: { type: String, default: '' },
     fertilizer_reason: { type: String, default: '' },
+    yieldEstimate: { type: String, default: '' },
+    fertilizerQuantity: { type: String, default: '' },
+    seedRequirement: { type: String, default: '' },
+    waterRequirement: { type: String, default: '' },
     confidence: { type: Number, default: 0 },
     alternatives: [
       {

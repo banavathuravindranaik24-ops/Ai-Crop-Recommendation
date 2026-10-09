@@ -2,6 +2,7 @@ const mlModel = require('../services/mlModel');
 const Prediction = require('../models/Prediction');
 const { getLocalCropInfo } = require('./cropController');
 const { getDBStatus } = require('../config/db');
+const { calculateAreaMetrics } = require('../services/cropMetrics');
 
 const fs = require('fs');
 const path = require('path');
@@ -55,6 +56,8 @@ const predictCrop = async (req, res) => {
     const ph = parseFloat(data.ph);
     const rainfall = parseFloat(data.rainfall);
     const city = (data.city || '').trim();
+    const area = parseFloat(data.area) > 0 ? parseFloat(data.area) : 1;
+    const areaUnit = (data.areaUnit || 'acres').trim();
 
     if ([n, p, k, temperature, humidity, ph, rainfall].some(isNaN)) {
       return res.status(400).json({
@@ -73,6 +76,9 @@ const predictCrop = async (req, res) => {
     // 3. Retrieve crop information & fertilizer
     const cropInfo = getLocalCropInfo(crop);
 
+    // 4. Calculate land area yield & fertilizer requirements
+    const areaMetrics = calculateAreaMetrics(crop, area, areaUnit);
+
     const predictionPayload = {
       n,
       p,
@@ -82,6 +88,8 @@ const predictCrop = async (req, res) => {
       ph,
       rainfall,
       city,
+      area,
+      areaUnit,
       crop,
       n_status,
       p_status,
@@ -90,11 +98,15 @@ const predictCrop = async (req, res) => {
       description: cropInfo.description,
       fertilizer: cropInfo.fertilizer,
       fertilizer_reason: cropInfo.fertilizer_reason,
+      yieldEstimate: areaMetrics.yieldEstimate,
+      fertilizerQuantity: areaMetrics.fertilizerDose,
+      seedRequirement: areaMetrics.seedRequirement,
+      waterRequirement: areaMetrics.waterRequirement,
       confidence: predictionResult.confidence,
       alternatives: predictionResult.alternatives
     };
 
-    // 4. Save to MongoDB if available, else in-memory cache
+    // 5. Save to MongoDB if available, else in-memory cache
     let savedRecord = null;
     const dbStatus = getDBStatus();
 
@@ -131,6 +143,13 @@ const predictCrop = async (req, res) => {
       fertilizer_reason: cropInfo.fertilizer_reason,
       confidence: predictionResult.confidence,
       alternatives: predictionResult.alternatives,
+      area: areaMetrics.area,
+      areaUnit: areaMetrics.areaUnit,
+      areaLabel: areaMetrics.areaLabel,
+      yieldEstimate: areaMetrics.yieldEstimate,
+      fertilizerQuantity: areaMetrics.fertilizerDose,
+      seedRequirement: areaMetrics.seedRequirement,
+      waterRequirement: areaMetrics.waterRequirement,
       predictionId: savedRecord._id,
       createdAt: savedRecord.createdAt
     });
