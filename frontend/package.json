@@ -8,9 +8,14 @@
     "start": "vite",
     "build": "vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:mobile": "vite build && cap sync android",
+    "open:android": "cap open android"
   },
   "dependencies": {
+    "@capacitor/android": "^8.6.0",
+    "@capacitor/cli": "^8.6.0",
+    "@capacitor/core": "^8.6.0",
     "axios": "^1.7.9",
     "lucide-react": "^0.475.0",
     "react": "^19.2.8",

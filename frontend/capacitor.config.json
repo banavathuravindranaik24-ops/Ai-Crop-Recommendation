@@ -1,0 +1,9 @@
+{
+  "appId": "com.aicrop.recommendation",
+  "appName": "AI Crop Recommendation",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true
+  }
+}

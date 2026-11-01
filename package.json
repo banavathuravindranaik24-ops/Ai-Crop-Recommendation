@@ -9,6 +9,7 @@
     "start": "node backend/src/server.js",
     "server": "npm --prefix backend run dev",
     "client": "npm --prefix frontend run dev",
+    "build:mobile": "npm --prefix frontend run build:mobile",
     "dev": "node -e \"const { spawn } = require('child_process'); spawn('npm', ['run', 'server'], { stdio: 'inherit', shell: true }); spawn('npm', ['run', 'client'], { stdio: 'inherit', shell: true });\""
   },
   "keywords": [

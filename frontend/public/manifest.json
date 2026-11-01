@@ -1,0 +1,18 @@
+{
+  "short_name": "Crop AI",
+  "name": "AI Crop Recommendation System",
+  "description": "Data-driven crop recommendations and farm yield forecasts powered by AI.",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#14532d",
+  "theme_color": "#16a34a",
+  "display": "standalone",
+  "orientation": "portrait"
+}

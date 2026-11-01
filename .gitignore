@@ -30,3 +30,13 @@ Thumbs.db
 AI-Crop-Recommendation1-main/
 *.zip
 AI-Crop-Recommendation-MERN/
+
+# Android & Gradle Build Artifacts
+frontend/android/.gradle/
+frontend/android/build/
+frontend/android/app/build/
+frontend/android/.idea/
+frontend/android/*.iml
+frontend/android/app/*.iml
+frontend/android/local.properties
+
